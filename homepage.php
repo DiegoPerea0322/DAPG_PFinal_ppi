@@ -32,8 +32,17 @@
         <!-- Center elements -->
         <div class="order-lg-last col-lg-5 col-sm-8 col-8">
           <div class="d-flex float-end">
-            <a href="https://github.com/mdbootstrap/bootstrap-material-design" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center" target="_blank"> <i class="fas fa-user-alt m-1 me-md-2"></i><p class="d-none d-md-block mb-0">Sign in</p> </a>
-            <a href="./php/Cart.html" class="border rounded py-1 px-3 nav-link d-flex align-items-center" target="_self"> <i class="fas fa-shopping-cart m-1 me-md-2"></i><p class="d-none d-md-block mb-0">My cart</p> </a>
+            <php?
+            $status = session_status();
+              if($status == PHP_SESSION_NONE){
+                  //There is no active session
+                  echo "<a href="./php/login_signup.php" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center" target="_self"> <i class="fas fa-user-alt m-1 me-md-2"></i><p class="d-none d-md-block mb-0">Sign in</p> </a>";
+                  echo "<a href="./php/login_signup.php" class="border rounded py-1 px-3 nav-link d-flex align-items-center" target="_self"> <i class="fas fa-shopping-cart m-1 me-md-2"></i><p class="d-none d-md-block mb-0">My cart</p> </a>";
+              }else if($status == PHP_SESSION_ACTIVE){
+                echo "<a href="./php/login_signup.php" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center" target="_self"> <i class="fas fa-user-alt m-1 me-md-2"></i><p class="d-none d-md-block mb-0">Account</p> </a>";
+                echo "<a href="./php/Cart.html" class="border rounded py-1 px-3 nav-link d-flex align-items-center" target="_self"> <i class="fas fa-shopping-cart m-1 me-md-2"></i><p class="d-none d-md-block mb-0">My cart</p> </a>";    
+                }
+            ?>
           </div>
         </div>
         <!-- Center elements -->
