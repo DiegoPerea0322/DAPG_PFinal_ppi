@@ -10,9 +10,9 @@
     <!-- Google Fonts Roboto -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
     <!-- MDB -->
-    <link rel="stylesheet" href="css/mdb.min.css" />
+    <link rel="stylesheet" href="../css/mdb.min.css" />
     <!-- Custom styles -->
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
 <header>
@@ -37,6 +37,146 @@
     </div>
   </div>
   <!-- Jumbotron -->
+
+  <?php
+    // Variables que contendrán un posible mensaje de error
+    $mailErr = $passwordErr = $logErr = $nombreErr = $correoErr = $telErr = $contraErr = $contraCErr = $cardErr = $addErr = $fechaErr = "";
+    $flag = $flag2 = 0;
+    // Variables que guardan el contenido de los campos del formulario
+    $mail = $password = $nombre = $correo = $telefono = $contra = $contraC = $card = $add = $fecha ="";
+    if (isset($_POST['login']))  {
+        //Inicio de sesion
+        // Reviso si hay campos vacios
+        if (empty($_POST["usermail"])) {
+            $mailErr = "Correo necesario";
+            $flag = 1;
+        } else {
+            $mail = test_input($_POST["usermail"]);
+        }
+        if (empty($_POST["userpass"])) {
+            $passwordErr = "Contraseña necesaria";
+            $flag = 1;
+        } else {
+            $password = test_input($_POST["userpass"]);
+        }
+        if ($flag == 0) {
+            // Crear una conexión
+            $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
+            // Coneccion a la base de datos
+            if (mysqli_connect_errno()) {
+                echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            } else {
+                //extrae datos del formulario
+                $correo = mysqli_real_escape_string($con,$mail);
+                $contra = mysqli_real_escape_string($con,$password);
+                
+                //el usuario y contraseña son correctos?
+                $sql = "SELECT id_usuario FROM usuario WHERE usuario.correo='$correo' AND usuario.password='$contra';";
+                if (mysqli_query($con,$sql)) {
+                    $result = mysqli_query($con,$sql);
+                    $row = mysqli_fetch_array($result);
+                    $id = $row['id_usuario'];
+                    session_start();
+                    $_SESSION['id'] = $id;
+                    header("Location: ../homepage.php");
+                } else {
+                    $logErr="Usuario o contraseña incorrectos";
+                }
+            }
+        }
+    // Si se presiona el boton de registro
+    //Dar de alta nuevo usuario    
+    }else if(isset($_POST['signup'])){
+      // Reviso si hay campos vacios
+      if (empty($_POST["name"])) {
+          $nombreErr = "Nombre faltante";
+          $flag2 = 1;
+      } else {
+          $nombre = test_input($_POST["name"]);
+      }
+      if (empty($_POST["fnacimiento"])) {
+        $fechaErr = "Fecha de nacimiento necesaria";
+        $flag2 = 1;
+      } else {
+        $fecha = test_input($_POST["fnacimiento"]);
+      }
+      if (empty($_POST["email"])) {
+          $correoErr = "Correo necesario";
+          $flag2 = 1;
+      } else {
+          $correo = test_input($_POST["email"]);
+      }
+      if (empty($_POST["tel"])) {
+          $telErr = "Correo necesario";
+          $flag2 = 1;
+      } else {
+          $telefono = test_input($_POST["tel"]);
+      }
+      if (empty($_POST["password"])) {
+          $contraErr = "Contraseña necesaria";
+          $flag2 = 1;
+      } else {
+          $contra = test_input($_POST["password"]);
+      }
+      if (empty($_POST["passwordC"])) {
+          $contraCErr = "Confirmacion de contraseña necesaria";
+          $flag2 = 1;
+      } else {
+          $contraC = test_input($_POST["passwordC"]);
+      }
+      if (empty($_POST["card"])) {
+          $cardErr = "Metodo de pago necesario";
+          $flag2 = 1;
+      } else {
+          $card = test_input($_POST["card"]);
+      }
+      if (empty($_POST["direccion"])) {
+          $addErr = "Direccion de envio necesaria";
+          $flag2 = 1;
+      } else {
+          $add = test_input($_POST["direccion"]);
+      }
+
+      // Reviso si las contraseñas coinciden
+      if ($contra != $contraC) {
+          $contraCErr = "Las contraseñas no coinciden";
+          $flag2 = 1;
+      }
+
+      if ($flag2 == 0) {
+          // Crear una conexión
+          $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
+          // Coneccion a la base de datos
+          if (mysqli_connect_errno()) {
+              echo "Failed to connect to MySQL: " . mysqli_connect_error();
+          } else {
+
+              //extrae datos del formulario
+              $name = mysqli_real_escape_string($con,$nombre);
+              $date = mysqli_real_escape_string($con,$fecha);
+              $email = mysqli_real_escape_string($con,$correo);
+              $tel = mysqli_real_escape_string($con,$telefono);
+              $password = mysqli_real_escape_string($con,$contra);
+              $tarjeta = mysqli_real_escape_string($con,$card);
+              $address = mysqli_real_escape_string($con,$add);
+
+              //el usuario y contraseña son correctos?
+              $sql = "INSERT INTO usuario (nombre, f_nacimiento, correo, telefono, password, tarjeta, direccion) VALUES ('$name', '$date', '$email', '$tel', '$password', '$tarjeta', '$address');";
+              if (mysqli_query($con,$sql)) {
+              } else {
+                  $logErr="Error al crear usuario";
+              }
+          }
+      }
+    }
+                
+    function test_input($data) {
+      $data = trim($data);
+      $data = stripslashes($data);
+      $data = htmlspecialchars($data);
+      return $data;
+    }
+?>
 
   <!-- Heading -->
   <div class="bg-primary">

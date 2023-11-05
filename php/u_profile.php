@@ -10,9 +10,9 @@
     <!-- Google Fonts Roboto -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
     <!-- MDB -->
-    <link rel="stylesheet" href="css/mdb.min.css" />
+    <link rel="stylesheet" href="../css/mdb.min.css" />
     <!-- Custom styles -->
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
     <!--Main Navigation-->
@@ -32,17 +32,9 @@
         <!-- Center elements -->
         <div class="order-lg-last col-lg-5 col-sm-8 col-8">
           <div class="d-flex float-end">
-            <?php
-                session_start();
-                if(isset($_SESSION['id'])) {
-                    echo "<a href=\"./php/u_profile.php\" class=\"me-1 border rounded py-1 px-3 nav-link d-flex align-items-center\" target=\"_self\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Account</p> </a>";
-                    echo "<a href=\"./php/Cart.html\" class=\"border rounded py-1 px-3 nav-link d-flex align-items-center\" target=\"_self\"> <i class=\"fas fa-shopping-cart m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">My cart</p> </a>";
-                }else {
-                    //There is no active session
-                    echo "<a href=\"./php/login_signup.php\" class=\"me-1 border rounded py-1 px-3 nav-link d-flex align-items-center\" target=\"_self\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Sign in</p> </a>";
-                    echo "<a href=\"./php/login_signup.php\" class=\"border rounded py-1 px-3 nav-link d-flex align-items-center\" target=\"_self\"> <i class=\"fas fa-shopping-cart m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">My cart</p> </a>";    
-                  }
-            ?>
+            <a href="https://github.com/mdbootstrap/bootstrap-material-design" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center" target="_blank"> <i class="fas fa-user-alt m-1 me-md-2"></i><p class="d-none d-md-block mb-0">Sign in</p> </a>
+            <a href="https://github.com/mdbootstrap/bootstrap-material-design" class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center" target="_blank"> <i class="fas fa-heart m-1 me-md-2"></i><p class="d-none d-md-block mb-0">Wishlist</p> </a>
+            <a href="https://github.com/mdbootstrap/bootstrap-material-design" class="border rounded py-1 px-3 nav-link d-flex align-items-center" target="_blank"> <i class="fas fa-shopping-cart m-1 me-md-2"></i><p class="d-none d-md-block mb-0">My cart</p> </a>
           </div>
         </div>
         <!-- Center elements -->
@@ -168,7 +160,8 @@
             <h5 class="card-title">GoPro HERO6 4K Action Camera - Black</h5>
             <p class="card-text">$790.50</p>
             <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
+              <a href="#!" class="btn btn-primary shadow-0 me-1">Add to cart</a>
+              <a href="#!" class="btn btn-light border px-2 pt-2 icon-hover"><i class="fas fa-heart fa-lg text-secondary px-1"></i></a>
             </div>
           </div>
         </div>
@@ -180,7 +173,8 @@
             <h5 class="card-title">Canon camera 20x zoom, Black color EOS 2000</h5>
             <p class="card-text">$320.00</p>
             <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
+              <a href="#!" class="btn btn-primary shadow-0 me-1">Add to cart</a>
+              <a href="#!" class="btn btn-light border px-2 pt-2 icon-hover"><i class="fas fa-heart fa-lg text-secondary px-1"></i></a>
             </div>
           </div>
         </div>
@@ -192,7 +186,8 @@
             <h5 class="card-title">Xiaomi Redmi 8 Original Global Version 4GB</h5>
             <p class="card-text">$120.00</p>
             <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
+              <a href="#!" class="btn btn-primary shadow-0 me-1">Add to cart</a>
+              <a href="#!" class="btn btn-light border px-2 pt-2 icon-hover"><i class="fas fa-heart fa-lg text-secondary px-1"></i></a>
             </div>
           </div>
         </div>
@@ -204,7 +199,8 @@
             <h5 class="card-title">Apple iPhone 12 Pro 6.1" RAM 6GB 512GB Unlocked</h5>
             <p class="card-text">$120.00</p>
             <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
+              <a href="#!" class="btn btn-primary shadow-0 me-1">Add to cart</a>
+              <a href="#!" class="btn btn-light border px-2 pt-2 icon-hover"><i class="fas fa-heart fa-lg text-secondary px-1"></i></a>
             </div>
           </div>
         </div>
@@ -216,7 +212,8 @@
             <h5 class="card-title">Apple Watch Series 1 Sport Case 38mm Black</h5>
             <p class="card-text">$790.50</p>
             <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
+              <a href="#!" class="btn btn-primary shadow-0 me-1">Add to cart</a>
+              <a href="#!" class="btn btn-light border px-2 pt-2 icon-hover"><i class="fas fa-heart fa-lg text-secondary px-1"></i></a>
             </div>
           </div>
         </div>
@@ -228,7 +225,8 @@
             <h5 class="card-title">T-shirts with multiple colors, for men and lady</h5>
             <p class="card-text">$120.00</p>
             <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
+              <a href="#!" class="btn btn-primary shadow-0 me-1">Add to cart</a>
+              <a href="#!" class="btn btn-light border px-2 pt-2 icon-hover"><i class="fas fa-heart fa-lg text-secondary px-1"></i></a>
             </div>
           </div>
         </div>
@@ -240,7 +238,8 @@
             <h5 class="card-title">Gaming Headset 32db Blackbuilt in mic</h5>
             <p class="card-text">$99.50</p>
             <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
+              <a href="#!" class="btn btn-primary shadow-0 me-1">Add to cart</a>
+              <a href="#!" class="btn btn-light border icon-hover px-2 pt-2"><i class="fas fa-heart fa-lg text-secondary px-1"></i></a>
             </div>
           </div>
         </div>
@@ -252,7 +251,8 @@
             <h5 class="card-title">T-shirts with multiple colors, for men and lady</h5>
             <p class="card-text">$120.00</p>
             <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
+              <a href="#!" class="btn btn-primary shadow-0 me-1">Add to cart</a>
+              <a href="#!" class="btn btn-light border px-2 pt-2 icon-hover"><i class="fas fa-heart fa-lg text-secondary px-1"></i></a>
             </div>
           </div>
         </div>
