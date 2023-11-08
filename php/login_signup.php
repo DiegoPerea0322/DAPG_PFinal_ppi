@@ -71,14 +71,18 @@
                 $contra = mysqli_real_escape_string($con,$password);
                 
                 //el usuario y contraseña son correctos?
-                $sql = "SELECT id_usuario FROM usuario WHERE usuario.correo='$correo' AND usuario.password='$contra';";
+                $sql = "SELECT id_usuario, superuser FROM usuario WHERE usuario.correo='$correo' AND usuario.password='$contra';";
                 if (mysqli_query($con,$sql)) {
                     $result = mysqli_query($con,$sql);
                     $row = mysqli_fetch_array($result);
                     $id = $row['id_usuario'];
                     session_start();
                     $_SESSION['id'] = $id;
-                    header("Location: ../homepage.php");
+                    if($row['superuser']==1){
+                      header("Location: ./admin_home.php");
+                    }else{
+                      header("Location: ../homepage.php");
+                    }
                 } else {
                     $logErr="Usuario o contraseña incorrectos";
                 }
