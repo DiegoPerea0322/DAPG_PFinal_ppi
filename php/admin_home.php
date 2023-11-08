@@ -6,11 +6,14 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>Material Design for Bootstrap</title>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <!-- Google Fonts Roboto -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"
+    />
     <!-- MDB -->
-    <link rel="stylesheet" href="../css/mdb.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet"
+    />
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/admin_styles.css" />
 </head>
@@ -25,7 +28,7 @@
     <div class="position-sticky">
       <div class="list-group list-group-flush mx-3 mt-4">
         <a
-           href="#"
+           href="./admin_home.php"
            class="list-group-item list-group-item-action py-2 ripple active"
            aria-current="true"
            >
@@ -33,7 +36,7 @@
             ><span>Panel de control</span>
         </a>
         <a
-           href="#"
+           href="./prod_upload.php"
            class="list-group-item list-group-item-action py-2 ripple"
            ><i class="fas fa-circle-plus fa-fw me-3"></i><span>Agregar producto</span></a>
         <a
@@ -261,9 +264,9 @@
 </main>
 <!--Main layout-->
     <!-- MDB -->
-    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <script type="text/javascript" src="../js/mdb.min.js"></script>
     <!-- Custom scripts -->
-    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="../js/script.js"></script>
 </body>
 <?php
 

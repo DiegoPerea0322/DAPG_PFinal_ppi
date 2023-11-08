@@ -337,9 +337,9 @@
 </main>
 <!--Main layout-->
     <!-- MDB -->
-    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <script type="text/javascript" src="../js/mdb.min.js"></script>
     <!-- Custom scripts -->
-    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="../js/script.js"></script>
 </body>
 <?php
     // Variables que contendrán un posible mensaje de error
