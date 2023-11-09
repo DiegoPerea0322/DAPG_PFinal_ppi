@@ -29,7 +29,7 @@
       <div class="list-group list-group-flush mx-3 mt-4">
         <a
            href="./u_profile.php"
-           class="list-group-item list-group-item-action py-2 ripple active"
+           class="list-group-item list-group-item-action py-2 ripple"
            aria-current="true"
            >
           <i class="fas fa-house-user fa-fw me-3"></i
@@ -41,7 +41,7 @@
            ><i class="fas fa-cart-shopping fa-fw me-3"></i><span>Carrito de Compras</span></a>
         <a
            href="./historial.php"
-           class="list-group-item list-group-item-action py-2 ripple"
+           class="list-group-item list-group-item-action py-2 ripple active"
            ><i class="fas fa-clock-rotate-left fa-fw me-3"></i><span>Historial de Compras</span></a
           >
       </div>
@@ -107,7 +107,7 @@
     <section class="mb-4">
       <div class="card shadow-0 border">
         <div class="card-body">
-        <h5 class="card-title mb-3">Perfil de Usuario</h5>
+        <h5 class="card-title mb-3">Historial de Compras</h5>
         </div>
       </div>
     </section>

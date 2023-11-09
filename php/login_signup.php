@@ -14,29 +14,45 @@
     <!-- Custom styles -->
     <link rel="stylesheet" href="../css/style.css" />
 </head>
-<body>
+<body style="padding-top:50px">
 <header>
   <!-- Jumbotron -->
-  <div class="p-3 text-center bg-white border-bottom">
-    <div class="container">
-      <div class="d-flex justify-content-between">
-        <!-- Left elements -->
+  <nav
+       id="main-navbar"
+       class="navbar navbar-expand-lg navbar-light bg-white fixed-top"
+       >
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+      <!-- Toggle button -->
+      <button
+              class="navbar-toggler"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#sidebarMenu"
+              aria-controls="sidebarMenu"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+              >
+        <i class="fas fa-bars"></i>
+      </button>
+      <!-- Brand -->
+      <a class="navbar-brand" href="#">
+        <img
+             src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png"
+             height="25"
+             alt=""
+             loading="lazy"
+             />
+      </a>
+      <!-- Right links -->
+      <ul class="navbar-nav ms-auto d-flex flex-row">
+        <!-- Notification dropdown -->
         <div class="">
-          <a href="https://mdbootstrap.com/" target="_blank" class="">
-            <img src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png" height="35" />
-          </a>
+          <a href="login_signup.php" class="me-1 border rounded py-1 px-3 nav-link" target="_blank"> <i class="fas fa-user-alt me-2"></i>Sign in / Log in</a>
         </div>
-        <!-- Left elements -->
-
-        <!-- right elements -->
-        <div class="">
-          <a href="https://github.com/mdbootstrap/bootstrap-material-design" class="me-1 border rounded py-1 px-3 nav-link" target="_blank"> <i class="fas fa-user-alt me-2"></i>Sign in </a>
-        </div>
-        <!-- right elements -->
-      </div>
+      </ul>
     </div>
-  </div>
-  <!-- Jumbotron -->
+  </nav>
 
   <?php
     // Variables que contendrán un posible mensaje de error
@@ -77,7 +93,7 @@
                     $row = mysqli_fetch_array($result);
                     $id = $row['id_usuario'];
                     session_start();
-                    $_SESSION['id'] = $id;
+                    $_SESSION['u_id'] = $id;
                     if($row['superuser']==1){
                       header("Location: ./admin_home.php");
                     }else{
@@ -190,7 +206,7 @@
         <h6 class="mb-0">
           <a href="" class="text-white-50">Home</a>
           <span class="text-white-50 mx-2"> > </span>
-          <a href="" class="text-white-50">Creación de cuenta</a>
+          <a href="" class="text-white-50">Creación de cuenta / Inicio de Sesion</a>
         </h6>
       </nav>
       <!-- Breadcrumb -->
