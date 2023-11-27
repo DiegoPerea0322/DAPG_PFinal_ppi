@@ -93,7 +93,7 @@
                     $row = mysqli_fetch_array($result);
                     $id = $row['id_usuario'];
                     session_start();
-                    $_SESSION['u_id'] = $id;
+                    $_SESSION['id'] = $id;
                     if($row['superuser']==1){
                       header("Location: ./admin_home.php");
                     }else{

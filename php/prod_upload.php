@@ -408,7 +408,7 @@
                 
                 // Subida de Imagen
 
-                $target_dir = "img/";
+                $target_dir = "../img/";
                 $newFileName = date('dmYHis') . str_replace(" ", "", basename($_FILES["fileToUpload"]["name"]));
                 $target_file = $target_dir . $newFileName;
                 $uploadOk = 1;

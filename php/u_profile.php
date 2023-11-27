@@ -77,6 +77,11 @@
              loading="lazy"
              />
       </a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="../homepage.php">Inicio</a>
+        </li>
+      </ul>
       <!-- Right links -->
       <ul class="navbar-nav ms-auto d-flex flex-row">
         <!-- Notification dropdown -->
