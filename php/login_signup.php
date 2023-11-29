@@ -94,6 +94,16 @@
                     $id = $row['id_usuario'];
                     session_start();
                     $_SESSION['id'] = $id;
+                    $sql2 = "INSERT INTO carrito (id_usuario) VALUES ('$id');";
+                    if (mysqli_query($con,$sql2)) {
+                      $sql3 = "SELECT id_carrito FROM carrito WHERE id_usuario='$id';";
+                      $result2 = mysqli_query($con,$sql3);
+                      $row2 = mysqli_fetch_array($result2);
+                      $_SESSION['id_carro']=$row2['id_carrito'];
+                    } else {
+                    echo "Error inserting data: " . mysqli_error($con);
+                    }
+
                     if($row['superuser']==1){
                       header("Location: ./admin_home.php");
                     }else{
@@ -183,6 +193,15 @@
               //el usuario y contraseña son correctos?
               $sql = "INSERT INTO usuario (nombre, f_nacimiento, correo, telefono, password, tarjeta, direccion) VALUES ('$name', '$date', '$email', '$tel', '$password', '$tarjeta', '$address');";
               if (mysqli_query($con,$sql)) {
+                  $sql2 = "SELECT id_usuario FROM usuario WHERE correo='$email';";
+                  $result = mysqli_query($con,$sql2);
+                  $row = mysqli_fetch_array($result);
+                  $id = (int) $row['id_usuario'];
+                  $sql3 = "INSERT INTO historial (id_usuario) VALUES ('$id');";
+                  if (mysqli_query($con,$sql3)) {
+                  } else {
+                    echo "Error inserting data: " . mysqli_error($con);
+                  }
               } else {
                   $logErr="Error al crear usuario";
               }

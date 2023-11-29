@@ -77,6 +77,11 @@
              loading="lazy"
              />
       </a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="../homepage.php">Inicio</a>
+        </li>
+      </ul>
       <!-- Right links -->
       <ul class="navbar-nav ms-auto d-flex flex-row">
         <!-- Notification dropdown -->
@@ -110,9 +115,109 @@
         <h5 class="card-title mb-3">Carrito de Compras</h5>
         </div>
       </div>
+            
+      <form role="form" method="post" action="<?php $_SERVER["PHP_SELF"];?>">
+        <?php
+
+            $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
+            // Coneccion a la base de datos
+            if (mysqli_connect_errno()) {
+                echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            } else {
+                //Saco los datos de la tabla
+                $id = $_SESSION['id'];
+                $result = mysqli_query($con,"SELECT * FROM producto, fotos, carritoprod WHERE fotos.caratula=1 AND fotos.id_producto=producto.id_producto AND carritoprod.id_producto=producto.id_producto AND carritoprod.id_carrito=(SELECT id_carrito FROM carrito WHERE id_usuario = $id);");
+                while($row = mysqli_fetch_array($result)) {
+
+                    echo "<div class=\"row justify-content-center mb-3\">
+                    <div class=\"col-md-12\">
+                    <div class=\"card shadow-0 border rounded-3\">
+                        <div class=\"card-body\">
+                        <div class=\"row g-0\">  
+                            <div class=\"col-xl-3 col-md-4 d-flex justify-content-center\">
+                            <div class=\"bg-image hover-zoom ripple rounded ripple-surface me-md-3 mb-3 mb-md-0\">
+                                <img src=\"..\\img\\" . $row['filename'] . "\" class=\"w-100\" />
+                            </div>
+                            </div>
+                            <div class=\"col-xl-6 col-md-5 col-sm-7\">";
+                    echo "<h5>" . $row['nombre'] . "</h5>";
+                    echo "<p class=\"text mb-4 mb-md-0\">" . $row['descripcion'] . "</p>";
+                    echo "</div>
+                            <div class=\"col-xl-3 col-md-3 col-sm-5\">
+                            <div class=\"d-flex flex-row align-items-center mb-1\">
+                                <h4 class=\"mb-1 me-1\"> $" . $row['precio'] . ".00</h4>
+                            </div>
+                            </div>
+                            
+
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>";
+            
+                }
+            }
+
+        ?>
+
+                <div class="float-end">
+              	<button type="submit" class="btn btn-success shadow-0 border" name="pay">Confirma compra</button>
+            	</div>            
+
+        </form>
+
     </section>
   </div>
 </main>
+
+<?php
+
+if (isset($_POST['pay']))  {
+        $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
+            // Coneccion a la base de datos
+            if (mysqli_connect_errno()) {
+                echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            } else {
+                // Process the values as needed
+                    $idsession = (int) $_SESSION['id'];
+                    $sql = "SELECT id_historial FROM historial WHERE id_usuario= $idsession ;";
+                    $result = mysqli_query($con,$sql);
+                    $row = mysqli_fetch_array($result);
+                    $value = $row['id_historial'];
+                    $valor = (int) $value;
+                    $sql2 = "SELECT id_carrito FROM carrito WHERE id_usuario= $idsession ;";
+                    $result2 = mysqli_query($con,$sql2);
+                    $row2 = mysqli_fetch_array($result2);
+                    $value2 = $row2['id_carrito'];
+                    $valor2 = (int) $value2;
+                    $sql3 = "SELECT id_producto FROM carritoprod WHERE id_carrito= $valor2 ;";
+                    $result3 = mysqli_query($con,$sql3);
+                    while($row = mysqli_fetch_array($result3)) {
+                        $value3 = $row['id_producto'];
+                        $valor3 = (int) $value3;
+                        $sql4 = "INSERT INTO historialprod (id_historial, id_producto) VALUES ($valor, $valor3);";
+                        if (mysqli_query($con,$sql4)) {
+                        } else {
+                        echo "Error inserting data: " . mysqli_error($con);
+                        }
+                    }
+                    $sql5 = "DELETE FROM carritoprod WHERE id_carrito= $valor2 ;";
+                    if (mysqli_query($con,$sql5)) {
+                    } else {
+                    echo "Error deleting data: " . mysqli_error($con);
+                    }
+                    $sql6 = "DELETE FROM carrito WHERE id_usuario= $idsession ;";
+                    if (mysqli_query($con,$sql6)) {
+                    } else {
+                    echo "Error deleting data: " . mysqli_error($con);
+                    }
+                
+                
+            }
+          } 
+?>
+
 <!--Main layout-->
     <!-- MDB -->
     <script type="text/javascript" src="../js/mdb.min.js"></script>

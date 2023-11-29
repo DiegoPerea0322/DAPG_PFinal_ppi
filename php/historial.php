@@ -77,6 +77,11 @@
              loading="lazy"
              />
       </a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="../homepage.php">Inicio</a>
+        </li>
+      </ul>
       <!-- Right links -->
       <ul class="navbar-nav ms-auto d-flex flex-row">
         <!-- Notification dropdown -->
@@ -110,6 +115,51 @@
         <h5 class="card-title mb-3">Historial de Compras</h5>
         </div>
       </div>
+
+      <?php
+
+            $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
+            // Coneccion a la base de datos
+            if (mysqli_connect_errno()) {
+                echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            } else {
+                //Saco los datos de la tabla
+                $id = $_SESSION['id'];
+                $result = mysqli_query($con,"SELECT * FROM producto, fotos, historialprod WHERE fotos.caratula=1 AND fotos.id_producto=producto.id_producto AND historialprod.id_producto=producto.id_producto AND historialprod.id_historial=(SELECT id_historial FROM historial WHERE id_usuario = $id);");
+                while($row = mysqli_fetch_array($result)) {
+
+                    echo "<div class=\"row justify-content-center mb-3\">
+                    <div class=\"col-md-12\">
+                    <div class=\"card shadow-0 border rounded-3\">
+                        <div class=\"card-body\">
+                        <div class=\"row g-0\">  
+                            <div class=\"col-xl-3 col-md-4 d-flex justify-content-center\">
+                            <div class=\"bg-image hover-zoom ripple rounded ripple-surface me-md-3 mb-3 mb-md-0\">
+                                <img src=\"..\\img\\" . $row['filename'] . "\" class=\"w-100\" />
+                            </div>
+                            </div>
+                            <div class=\"col-xl-6 col-md-5 col-sm-7\">";
+                    echo "<h5>" . $row['nombre'] . "</h5>";
+                    echo "<p class=\"text mb-4 mb-md-0\">" . $row['descripcion'] . "</p>";
+                    echo "</div>
+                            <div class=\"col-xl-3 col-md-3 col-sm-5\">
+                            <div class=\"d-flex flex-row align-items-center mb-1\">
+                                <h4 class=\"mb-1 me-1\"> $" . $row['precio'] . ".00</h4>
+                            </div>
+                            </div>
+                            
+
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>";
+            
+                }
+            }
+
+        ?>
+
     </section>
   </div>
 </main>
