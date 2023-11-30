@@ -51,9 +51,6 @@
         <!-- Notification dropdown -->
           <?php
               session_start();
-              if(isset($_SESSION['id_carro'])) {
-                echo "ID carro: ".$_SESSION['id_carro'];
-              }
               if(isset($_SESSION['id'])) {
                   echo "<li class=\"nav-item dropdown\"><a href=\"#\" class=\"hidden-arrow me-1 border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" id=\"userMenuDropdown\" role=\"button\" data-mdb-toggle=\"dropdown\" aria-expanded=\"false\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Mi Cuenta</p> </a><ul class=\"dropdown-menu dropdown-menu-end\" aria-labelledby=\"userMenuDropdown\"><li><a class=\"dropdown-item\" href=\"./u_profile.php\">Perfil</a></li><li> <form role=\"form\" method=\"post\"><button class=\"dropdown-item\" type=\"button\" name=\"logout\">Cerrar sesión</button></form></li>
                   </ul></li>";

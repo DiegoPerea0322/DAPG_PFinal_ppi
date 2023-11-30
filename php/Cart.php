@@ -227,16 +227,6 @@
                     echo "Error deleting data: " . mysqli_error($con);
                     }
                     echo "<script type='text/javascript'>alert('Compra realizada con exito');</script>";
-                    $sql8 = "INSERT INTO carrito (id_usuario) VALUES ($idsession);";
-                    if (mysqli_query($con,$sql8)) {
-                      $sql9 = "SELECT id_carrito FROM carrito WHERE id_usuario= $idsession ;";
-                      $result9 = mysqli_query($con,$sql9);
-                      $row9 = mysqli_fetch_array($result9);
-                      $value9 = $row9['id_carrito'];
-                      $_SESSION['id_carro'] = $value9;
-                    } else {
-                    echo "Error inserting data: " . mysqli_error($con);
-                    }
                 
             }
   }else if (isset($_POST['empty'])){
