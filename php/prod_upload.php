@@ -38,7 +38,7 @@
            target="_self"
            ><i class="fas fa-circle-plus fa-fw me-3"></i><span>Agregar producto</span></a>
         <a
-           href="./modifica.php"
+           href="./s_mod.php"
            class="list-group-item list-group-item-action py-2 ripple"
            ><i class="fas fa-pen-to-square fa-fw me-3"></i><span>Modificar Productos</span></a
           >
@@ -210,6 +210,7 @@
     <!-- Section: Main chart -->
   </div>
 </main>
+
 <!--Main layout-->
     <!-- MDB -->
     <script type="text/javascript" src="../js/mdb.min.js"></script>

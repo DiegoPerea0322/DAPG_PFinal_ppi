@@ -168,6 +168,7 @@
     </section>
   </div>
 </main>
+
 <!--Main layout-->
     <!-- MDB -->
     <script type="text/javascript" src="../js/mdb.min.js"></script>
