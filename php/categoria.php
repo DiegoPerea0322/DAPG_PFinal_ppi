@@ -51,11 +51,8 @@
         <!-- Notification dropdown -->
           <?php
               session_start();
-              if(isset($_SESSION['id_carro'])) {
-                echo "ID carro: ".$_SESSION['id_carro'];
-              }
               if(isset($_SESSION['id'])) {
-                  echo "<li class=\"nav-item dropdown\"><a href=\"#\" class=\"hidden-arrow me-1 border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" id=\"userMenuDropdown\" role=\"button\" data-mdb-toggle=\"dropdown\" aria-expanded=\"false\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Mi Cuenta</p> </a><ul class=\"dropdown-menu dropdown-menu-end\" aria-labelledby=\"userMenuDropdown\"><li><a class=\"dropdown-item\" href=\"./u_profile.php\">Perfil</a></li><li> <form role=\"form\" method=\"post\"><button class=\"dropdown-item\" type=\"button\" name=\"logout\">Cerrar sesión</button></form></li>
+                  echo "<li class=\"nav-item dropdown\"><a href=\"#\" class=\"hidden-arrow me-1 border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" id=\"userMenuDropdown\" role=\"button\" data-mdb-toggle=\"dropdown\" aria-expanded=\"false\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Mi Cuenta</p> </a><ul class=\"dropdown-menu dropdown-menu-end\" aria-labelledby=\"userMenuDropdown\"><li><a class=\"dropdown-item\" href=\"./u_profile.php\">Perfil</a></li><li><form role=\"form\" method=\"post\"><button class=\"dropdown-item\" type=\"submit\" name=\"logout\">Cerrar sesión</button></form></li>
                   </ul></li>";
                   echo "<li class=\"nav-item\"><a href=\"./Cart.php\" class=\"border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" target=\"_self\"> <i class=\"fas fa-shopping-cart m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">My cart</p> </a></li>";
               }else {
@@ -70,10 +67,10 @@
 
   <?php
     if (isset($_POST['logout'])) {
-      session_unset();
-      session_destroy();
-      header("Location: ../homepage.php");
-      // Your code that you want to execute
+        session_unset();
+        session_destroy();
+        header("Location: ../homepage.php");
+        // Your code that you want to execute
     }
     if (isset($_POST['CPU'])) {
       $_SESSION['cat'] = 1;
@@ -181,10 +178,29 @@
   </nav>
   <!-- Navbar -->
 
+    <?php
+
+    $cat = $_SESSION['cat'];
+    $categoria = (int) $cat;
+    $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
+            // Coneccion a la base de datos
+            if (mysqli_connect_errno()) {
+                echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            } else {
+                //Saco los datos de la tabla
+                $result = mysqli_query($con,"SELECT * FROM categoria WHERE id_categoria=$categoria;");
+                while($row = mysqli_fetch_array($result)) {
+                    $ncatecoria = $row['n_categoria'];
+                }
+            }
+        
+
+    ?>
+
   <!-- Heading -->
   <div class="bg-primary mb-4">
     <div class="container py-4">
-      <h3 class="text-white mt-2">Productos</h3>
+      <h3 class="text-white mt-2"><?php echo $ncatecoria?></h3>
     </div>
   </div>
   <!-- Heading -->
@@ -199,13 +215,16 @@
       <form role="form" method="post" action="<?php $_SERVER["PHP_SELF"];?>">
         <?php
 
+              $cat = $_SESSION['cat'];
+              $categoria = (int) $cat;
+
             $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
             // Coneccion a la base de datos
             if (mysqli_connect_errno()) {
                 echo "Failed to connect to MySQL: " . mysqli_connect_error();
             } else {
                 //Saco los datos de la tabla
-                $result = mysqli_query($con,"SELECT fotos.filename, producto.nombre, producto.descripcion, CONCAT('$', FORMAT(producto.precio, 2)) AS precio, producto.id_producto FROM producto INNER JOIN fotos WHERE fotos.caratula=1 AND fotos.id_producto=producto.id_producto;");
+                $result = mysqli_query($con,"SELECT fotos.filename, producto.nombre, producto.descripcion, CONCAT('$', FORMAT(producto.precio, 2)) AS precio, producto.id_producto FROM producto INNER JOIN fotos WHERE fotos.caratula=1 AND fotos.id_producto=producto.id_producto AND producto.id_categoria=$categoria;");
                 while($row = mysqli_fetch_array($result)) {
 
                     echo "<div class=\"row justify-content-center mb-3\">
@@ -222,8 +241,8 @@
                     echo "<h5>" . $row['nombre'] . "</h5>";
                     echo "<p class=\"text mb-4 mb-md-0\">" . $row['descripcion'] . "</p>";
                     echo "</div>
-                            <div class=\"col-xl-3 col-md-3 col-sm-5\">
-                            <div class=\"d-flex flex-row align-items-center mb-1\" style=\"padding-left:70px\">
+                            <div class=\"col-xl-3 col-md-3 col-sm-5\" style=\"padding-left:70px\">
+                            <div class=\"d-flex flex-row align-items-center mb-1\">
                                 <h4 class=\"mb-1 me-1\"> " . $row['precio'] . "</h4>
                             </div>
                             </div>

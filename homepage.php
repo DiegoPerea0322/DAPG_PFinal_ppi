@@ -51,11 +51,8 @@
         <!-- Notification dropdown -->
           <?php
               session_start();
-              if(isset($_SESSION['id_carro'])) {
-                echo "ID carro: ".$_SESSION['id_carro'];
-              }
               if(isset($_SESSION['id'])) {
-                  echo "<li class=\"nav-item dropdown\"><a href=\"#\" class=\"hidden-arrow me-1 border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" id=\"userMenuDropdown\" role=\"button\" data-mdb-toggle=\"dropdown\" aria-expanded=\"false\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Mi Cuenta</p> </a><ul class=\"dropdown-menu dropdown-menu-end\" aria-labelledby=\"userMenuDropdown\"><li><a class=\"dropdown-item\" href=\"./php/u_profile.php\">Perfil</a></li><li><button class=\"dropdown-item\" type=\"button\" name=\"logout\">Cerrar sesión</button></li>
+                  echo "<li class=\"nav-item dropdown\"><a href=\"#\" class=\"hidden-arrow me-1 border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" id=\"userMenuDropdown\" role=\"button\" data-mdb-toggle=\"dropdown\" aria-expanded=\"false\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Mi Cuenta</p> </a><ul class=\"dropdown-menu dropdown-menu-end\" aria-labelledby=\"userMenuDropdown\"><li><a class=\"dropdown-item\" href=\"./php/u_profile.php\">Perfil</a></li><li><form role=\"form\" method=\"post\"><button class=\"dropdown-item\" type=\"submit\" name=\"logout\">Cerrar sesión</button></form></li>
                   </ul></li>";
                   echo "<li class=\"nav-item\"><a href=\"./php/Cart.php\" class=\"border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" target=\"_self\"> <i class=\"fas fa-shopping-cart m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">My cart</p> </a></li>";
               }else {
@@ -68,7 +65,40 @@
     </div>
   </nav>
 
-  
+  <?php 
+    if (isset($_POST['logout'])) {
+      session_unset();
+      session_destroy();
+      header("Location: homepage.php");
+      // Your code that you want to execute
+  }
+
+    if (isset($_POST['CPU'])) {
+      $_SESSION['cat'] = 1;
+      header("Location: ./php/categoria.php");
+      // Your code that you want to execute
+    }else if (isset($_POST['MB'])) {
+      $_SESSION['cat'] = 2;
+      header("Location: ./php/categoria.php");
+      // Your code that you want to execute
+    }else if (isset($_POST['GPU'])) {
+      $_SESSION['cat'] = 4;
+      header("Location: ./php/categoria.php");
+      // Your code that you want to execute
+    }else if (isset($_POST['Storage'])) {
+      $_SESSION['cat'] = 3;
+      header("Location: ./php/categoria.php");
+      // Your code that you want to execute
+    }else if (isset($_POST['RAM'])) {
+      $_SESSION['cat'] = 6;
+      header("Location: ./php/categoria.php");
+      // Your code that you want to execute
+    }if (isset($_POST['Cases'])) {
+      $_SESSION['cat'] = 5;
+      header("Location: ./php/categoria.php");
+      // Your code that you want to execute
+    } 
+  ?>
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-white">
@@ -99,6 +129,48 @@
             <a class="btn btn-link px-3 me-2"  href="./php/productos.php">Productos</a>
           </form>
           </li>
+          <li class="nav-item">
+          <form role="form" method="post">
+            <button type="submit" class="btn btn-link px-3 me-2" name="CPU">
+              Procesadores
+            </button>
+          </form>
+          </li>
+          <li class="nav-item">
+          <form role="form" method="post">
+            <button type="submit" class="btn btn-link px-3 me-2" name="MB">
+              Tarjetas Madre
+            </button>        
+            </form>  
+          </li>
+          <li class="nav-item">
+          <form role="form" method="post">
+          <button type="submit" class="btn btn-link px-3 me-2" name="GPU">
+              Tarjetas de Video
+            </button>
+            </form>
+          </li>
+          <li class="nav-item">
+          <form role="form" method="post">
+          <button type="submit" class="btn btn-link px-3 me-2" name="Storage">
+              Almacenamiento
+            </button>     
+            </form>     
+          </li>
+          <li class="nav-item">
+          <form role="form" method="post">
+            <button type="submit" class="btn btn-link px-3 me-2" name="RAM">
+              Memoria RAM
+            </button>      
+          </form>  
+          </li>
+          <li class="nav-item">
+          <form role="form" method="post">
+            <button type="submit" class="btn btn-link px-3 me-2" name="Cases">
+              Gabinetes
+            </button>     
+          </form>   
+          </li>
         </ul>
         <!-- Left links -->
       </div>
@@ -117,9 +189,6 @@
       <p>
         Los mejores precios, productos y servicio.
       </p>
-      <button type="button" class="btn btn-light shadow-0 text-primary pt-2 border border-white">
-        <span class="pt-1">Purchase now</span>
-      </button>
     </div>
   </div>
   <!-- Jumbotron -->
@@ -130,106 +199,36 @@
 <section>
   <div class="container my-5">
     <header class="mb-4">
-      <h3>New products</h3>
+      <h3>Productos destacados</h3>
     </header>
-
     <div class="row">
-      <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
-        <div class="card w-100 my-2 shadow-2-strong">
-          <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/1.webp" class="card-img-top" style="aspect-ratio: 1 / 1" />
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">GoPro HERO6 4K Action Camera - Black</h5>
-            <p class="card-text">$790.50</p>
-            <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
+
+    <?php
+    
+      $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
+      // Coneccion a la base de datos
+      if (mysqli_connect_errno()) {
+          echo "Failed to connect to MySQL: " . mysqli_connect_error();
+      } else {
+          //Saco los datos de la tabla
+          $result = mysqli_query($con,"SELECT fotos.filename, producto.nombre, CONCAT('$', FORMAT(producto.precio, 2)) AS precio FROM producto INNER JOIN fotos WHERE fotos.caratula=1 AND fotos.id_producto=producto.id_producto LIMIT 4;");
+          while($row = mysqli_fetch_array($result)) {
+            echo "<div class=\"col-lg-3 col-md-6 col-sm-6 d-flex\">
+            <div class=\"card w-100 my-2 shadow-2-strong\">";
+              echo "<img src=\".\\img\\" . $row['filename'] . "\" class=\"card-img-top\" style=\"aspect-ratio: 1.5 / 1\" />
+              <div class=\"card-body d-flex flex-column\">";
+                echo "<h5 class=\"card-title\">". $row['nombre'] ."</h5>";
+                echo "<p class=\"card-text\">" . $row['precio'] . "</p>";
+              echo "</div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
-        <div class="card w-100 my-2 shadow-2-strong">
-          <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/2.webp" class="card-img-top" style="aspect-ratio: 1 / 1" />
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">Canon camera 20x zoom, Black color EOS 2000</h5>
-            <p class="card-text">$320.00</p>
-            <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
-        <div class="card w-100 my-2 shadow-2-strong">
-          <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/3.webp" class="card-img-top" style="aspect-ratio: 1 / 1" />
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">Xiaomi Redmi 8 Original Global Version 4GB</h5>
-            <p class="card-text">$120.00</p>
-            <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
-        <div class="card w-100 my-2 shadow-2-strong">
-          <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/4.webp" class="card-img-top" style="aspect-ratio: 1 / 1" />
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">Apple iPhone 12 Pro 6.1" RAM 6GB 512GB Unlocked</h5>
-            <p class="card-text">$120.00</p>
-            <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
-        <div class="card w-100 my-2 shadow-2-strong">
-          <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/5.webp" class="card-img-top" style="aspect-ratio: 1 / 1" />
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">Apple Watch Series 1 Sport Case 38mm Black</h5>
-            <p class="card-text">$790.50</p>
-            <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
-        <div class="card w-100 my-2 shadow-2-strong">
-          <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/6.webp" class="card-img-top" style="aspect-ratio: 1 / 1" />
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">T-shirts with multiple colors, for men and lady</h5>
-            <p class="card-text">$120.00</p>
-            <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
-        <div class="card w-100 my-2 shadow-2-strong">
-          <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp" class="card-img-top" style="aspect-ratio: 1 / 1" />
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">Gaming Headset 32db Blackbuilt in mic</h5>
-            <p class="card-text">$99.50</p>
-            <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6 d-flex">
-        <div class="card w-100 my-2 shadow-2-strong">
-          <img src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/8.webp" class="card-img-top" style="aspect-ratio: 1 / 1" />
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">T-shirts with multiple colors, for men and lady</h5>
-            <p class="card-text">$120.00</p>
-            <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-              <a href="./php/Prod_details.html" class="btn btn-primary shadow-0 me-1">Ver</a>
-            </div>
-          </div>
-        </div>
-      </div>
+          </div>";
+          }
+      }
+
+    ?>
+      
+
+      
     </div>
   </div>
 </section>

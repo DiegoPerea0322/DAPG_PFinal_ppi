@@ -52,7 +52,8 @@
   <!-- Navbar -->
   <nav
        id="main-navbar"
-       class="navbar navbar-expand-lg navbar-light bg-white fixed-top"
+       class="navbar navbar-expand-lg navbar-light bg-primary fixed-top"
+       style = "min-height: 70px;"
        >
     <!-- Container wrapper -->
     <div class="container-fluid">
@@ -69,37 +70,42 @@
         <i class="fas fa-bars"></i>
       </button>
       <!-- Brand -->
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="../homepage.php">
         <img
              src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png"
              height="25"
              alt=""
              loading="lazy"
+             class="img-thumbnail"
              />
       </a>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="../homepage.php">Inicio</a>
-        </li>
-      </ul>
       <!-- Right links -->
       <ul class="navbar-nav ms-auto d-flex flex-row">
         <!-- Notification dropdown -->
           <?php
               session_start();
               if(isset($_SESSION['id'])) {
-                  echo "<li class=\"nav-item dropdown\"><a href=\"#\" class=\"hidden-arrow me-1 border rounded py-1 px-3 nav-link d-flex align-items-center\" id=\"userMenuDropdown\" role=\"button\" data-mdb-toggle=\"dropdown\" aria-expanded=\"false\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Mi Cuenta</p> </a><ul class=\"dropdown-menu dropdown-menu-end\" aria-labelledby=\"userMenuDropdown\"><li><a class=\"dropdown-item\" href=\"./php/u_profile.php\">Perfil</a></li>
+                  echo "<li class=\"nav-item dropdown\"><a href=\"#\" class=\"hidden-arrow me-1 border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" id=\"userMenuDropdown\" role=\"button\" data-mdb-toggle=\"dropdown\" aria-expanded=\"false\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Mi Cuenta</p> </a><ul class=\"dropdown-menu dropdown-menu-end\" aria-labelledby=\"userMenuDropdown\"><li><a class=\"dropdown-item\" href=\"./u_profile.php\">Perfil</a></li><li><form role=\"form\" method=\"post\"><button class=\"dropdown-item\" type=\"submit\" name=\"logout\">Cerrar sesión</button></form></li>
                   </ul></li>";
-                  echo "<li class=\"nav-item\"><a href=\"./php/Cart.html\" class=\"border rounded py-1 px-3 nav-link d-flex align-items-center\" target=\"_self\"> <i class=\"fas fa-shopping-cart m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">My cart</p> </a></li>";
+                  echo "<li class=\"nav-item\"><a href=\"./Cart.php\" class=\"border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" target=\"_self\"> <i class=\"fas fa-shopping-cart m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">My cart</p> </a></li>";
               }else {
                   //There is no active session
-                  echo "<li class=\"nav-item\"><a href=\"./php/login_signup.php\" class=\"me-1 border rounded py-1 px-3 nav-link d-flex align-items-center\" target=\"_self\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Sign in</p> </a></li>";
-                  echo "<li class=\"nav-item\"><a href=\"./php/login_signup.php\" class=\"border rounded py-1 px-3 nav-link d-flex align-items-center\" target=\"_self\"> <i class=\"fas fa-shopping-cart m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">My cart</p> </a></li>";    
+                  echo "<li class=\"nav-item\"><a href=\"./login_signup.php\" class=\"me-1 border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" target=\"_self\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Sign in</p> </a></li>";
+                  echo "<li class=\"nav-item\"><a href=\"./login_signup.php\" class=\"border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" target=\"_self\"> <i class=\"fas fa-shopping-cart m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">My cart</p> </a></li>";    
               } 
           ?>
       </ul>
     </div>
   </nav>
+
+  <?php
+    if (isset($_POST['logout'])) {
+      session_unset();
+      session_destroy();
+      header("Location: ../homepage.php");
+      // Your code that you want to execute
+    }
+  ?>
 
   <!-- Navbar -->
 </header>
@@ -113,6 +119,25 @@
       <div class="card shadow-0 border">
         <div class="card-body">
         <h5 class="card-title mb-3">Perfil de Usuario</h5>
+        <?php
+            $u_id = (int) $_SESSION['id'];
+            $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
+            if (mysqli_connect_errno()) {
+                echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            } else {
+                //Saco los datos de la tabla
+                $sql = "SELECT * FROM usuario WHERE id_usuario = $u_id";
+                $result = mysqli_query($con, $sql);
+                $row = mysqli_fetch_array($result);
+                echo "<p>Nombre: ".$row['nombre']."</p>";
+                echo "<p>Fecha de Nacimiento: ".$row['f_nacimiento']."</p>";
+                echo "<p>Correo: ".$row['correo']."</p>";
+                echo "<p>Telefono: ".$row['telefono']."</p>";
+                echo "<hr class=\"my-4\" />";
+                echo "<h5 class=\"card-title mb-3\">Datos de Envio</h5>";
+                echo "<p>Direccion: ".$row['direccion']."</p>";
+            }
+        ?>
         </div>
       </div>
     </section>

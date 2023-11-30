@@ -29,7 +29,7 @@
       <div class="list-group list-group-flush mx-3 mt-4">
         <a
            href="./admin_home.php"
-           class="list-group-item list-group-item-action py-2 ripple active"
+           class="list-group-item list-group-item-action py-2 ripple"
            aria-current="true"
            >
           <i class="fas fa-tachometer-alt fa-fw me-3"></i
@@ -41,12 +41,12 @@
            ><i class="fas fa-circle-plus fa-fw me-3"></i><span>Agregar producto</span></a>
         <a
            href="./s_mod.php"
-           class="list-group-item list-group-item-action py-2 ripple"
+           class="list-group-item list-group-item-action py-2 ripple active"
            ><i class="fas fa-pen-to-square fa-fw me-3"></i><span>Modificar Productos</span></a
           >
         <a
            href="elimina.php"
-           class="list-group-item list-group-item-action py-2 ripple"
+           class="list-group-item list-group-item-action py-2 ripple "
            ><i class="fas fa-circle-minus fa-fw me-3"></i
           ><span>Eliminar productos</span></a
           >
@@ -124,7 +124,8 @@
     <section class="mb-4">
       <div class="card shadow-0 border">
         <div class="card-body">
-        <h5 class="card-title mb-3">Resumen de Inventario</h5>
+        <h5 class="card-title mb-3">Selecciona Producto a Modificar</h5>
+        <form role="form" method="post" action="<?php $_SERVER["PHP_SELF"];?>">
         <?php
 
             $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
@@ -133,7 +134,7 @@
                 echo "Failed to connect to MySQL: " . mysqli_connect_error();
             } else {
                 //Saco los datos de la tabla
-                $result = mysqli_query($con,"SELECT fotos.filename, producto.nombre, producto.descripcion, CONCAT('$', FORMAT(producto.precio, 2)) AS precio, producto.c_almacen, categoria.n_categoria FROM producto, fotos, categoria WHERE fotos.caratula=1 AND fotos.id_producto=producto.id_producto AND producto.id_categoria=categoria.id_categoria;");
+                $result = mysqli_query($con,"SELECT fotos.filename, producto.nombre, producto.descripcion, CONCAT('$', FORMAT(producto.precio, 2)) AS precio, producto.id_producto, categoria.n_categoria FROM producto, fotos, categoria WHERE fotos.caratula=1 AND fotos.id_producto=producto.id_producto AND producto.id_categoria=categoria.id_categoria;");
                 while($row = mysqli_fetch_array($result)) {
 
                     echo "<div class=\"row justify-content-center mb-3\">
@@ -157,7 +158,7 @@
                             </div>
                             </div>
                             <div class=\"col-xl-2 col-md-2 col-sm-2\">
-                                <h4 class=\"mb-1 me-1\"> Cantidad en Almacen:" . $row['c_almacen'] . "</h4>
+                                <input type=\"radio\" name=\"selectedValue\" value=\"" .$row['id_producto']. "\"> Modifica producto
                             </div>
 
                         </div>
@@ -170,55 +171,34 @@
             }
 
         ?>
-        </div>
-      </div>
-    </section>
-    <!-- Section: Resumen de compras -->
-    <section class="mb-4">
-      <div class="card shadow-0 border">
-        <div class="card-body">
-        <h5 class="card-title mb-3">Resumen de Compras</h5>
-        <?php
-          $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
-          // Coneccion a la base de datos
-          if (mysqli_connect_errno()) {
-              echo "Failed to connect to MySQL: " . mysqli_connect_error();
-          } else {
-              //Saco los datos de la tabla
-              $result2 = mysqli_query($con,"SELECT id_historial FROM historial ORDER BY id_historial DESC LIMIT 1;");
-              $row2 = mysqli_fetch_array($result2);
-              $id_historial = $row2['id_historial'];
-              $result = mysqli_query($con,"SELECT producto.nombre, producto.descripcion, CONCAT('$', FORMAT(producto.precio, 2)) AS precio FROM producto, historialprod WHERE producto.id_producto = historialprod.id_producto;");
-              while($row = mysqli_fetch_array($result)) {
 
-                  echo "<div class=\"row justify-content-center mb-3\">
-                  <div class=\"col-md-12\">
-                  <div class=\"card shadow-0 border rounded-3\">
-                      <div class=\"card-body\">
-                      <div class=\"row g-0\">  
-                          <div class=\"col-xl-8 col-md-3 col-sm-5\">";
-                  echo "<h5>" . $row['nombre'] . "</h5>";
-                  echo "<p class=\"text mb-4 mb-md-0\">" . $row['descripcion'] . "</p><br>";
-                  echo "</div>
-                          <div class=\"col-xl-4 col-md-3 col-sm-5\">
-                          <div class=\"d-flex flex-row align-items-center mb-1\" style=\"padding-left:70px\">
-                              <h4 class=\"mb-1 me-1\"> " . $row['precio'] . "</h4>
-                          </div>
-                          </div>
+                <div class="float-end">
+              	<button type="submit" class="btn btn-success shadow-0 border" name="mod">Modifica producto seleccionado</button>
+            	</div>            
 
-                      </div>
-                      </div>
-                      </div>
-                      </div>
-                      </div>";
-
-              }
-          }
-        ?>
+        </form>
         </div>
       </div>
     </section>
   </div>
+
+  <?php
+
+if (isset($_POST['mod']))  {
+    // Check if the checkbox values are set in the POST request
+    if (isset($_POST["selectedValue"])) {
+        // Retrieve the selected checkbox values
+        $selectedValue = $_POST["selectedValue"];
+        $_SESSION['mod_idprod'] = (int) $selectedValue;
+        echo "<a class=\"btn btn-link px-3 me-2\"  href=\"./modifica.php\">Siguiente</a>";
+        
+    } else {
+        // No checkboxes were selected
+        echo "No checkboxes selected.";
+    }
+}
+?>
+
 </main>
 <!--Main layout-->
     <!-- MDB -->

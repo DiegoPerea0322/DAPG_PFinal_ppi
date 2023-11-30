@@ -34,12 +34,12 @@
         </a>
         <a
            href="./prod_upload.php"
-           class="list-group-item list-group-item-action py-2 ripple active"
+           class="list-group-item list-group-item-action py-2 ripple"
            target="_self"
            ><i class="fas fa-circle-plus fa-fw me-3"></i><span>Agregar producto</span></a>
         <a
-           href="./modifica.php"
-           class="list-group-item list-group-item-action py-2 ripple"
+           href="./s_mod.php"
+           class="list-group-item list-group-item-action py-2 ripple active"
            ><i class="fas fa-pen-to-square fa-fw me-3"></i><span>Modificar Productos</span></a
           >
         <a
@@ -114,6 +114,25 @@
 </header>
 <!--Main Navigation-->
 
+<?php
+
+    $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
+    // Coneccion a la base de datos
+    if (mysqli_connect_errno()) {
+        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    } else {
+    $idprod = (int) $_SESSION['mod_idprod'];
+    $sql2 = "SELECT * FROM producto WHERE id_producto=$idprod;";
+    $result2 = mysqli_query($con,$sql2);
+    $row2 = mysqli_fetch_array($result2);
+    $nombre = $row2['nombre'];
+    $descripcion = $row2['descripcion'];
+    $precio = (float) $row2['precio'];
+    $cantidad = (int) $row2['c_almacen'];
+    $categoria = (int) $row2['id_categoria'];
+    }
+?>
+
 <!--Main layout-->
 <main style="margin-top: 58px">
   <div class="container pt-4">
@@ -122,18 +141,18 @@
       <div class="card shadow-0 border">
         <div class="card-body">
         <form role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" enctype="multipart/form-data">
-          <h5 class="card-title mb-3">Añadir producto</h5>
+          <h5 class="card-title mb-3">Modificar producto</h5>
           <div class="row">
             <div class="col-12 mb-3">
               <p class="mb-0">Nombre del producto</p>
               <div class="form-group">
-                <input type="text" id="typeText" placeholder="Type here" class="form-control" name="name"/>
+                <input type="text" id="typeText" placeholder="Type here" class="form-control" name="name" value="<?php echo $nombre; ?>"/>
               </div>
             </div>
 
             <div class="col-6 mb-3">
               <p class="mb-0">Categoria</p>
-                  <select class="form-select" id="categoria" name="categoria">
+                  <select class="form-select" id="categoria" name="categoria" value="<?php echo $categoria; ?>">
                   
                   <?php
                     $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
@@ -159,7 +178,7 @@
           <div class="mb-3">
             <p class="mb-0">Descripión</p>
             <div class="form-group">
-              <textarea class="form-control" id="textDescripcion" rows="5" name="descripcion"></textarea>
+              <textarea class="form-control" id="textDescripcion" rows="5" name="descripcion"> <?php echo $descripcion; ?></textarea>
             </div>
           </div>
           
@@ -168,7 +187,7 @@
             <div class="col-sm-6 mb-3">
               <p class="mb-0">Precio</p>
               <div class="form-group">
-                <input type="number" id="typeNumber" class="form-control" name="precio"/>
+                <input type="number" id="typeNumber" class="form-control" name="precio" value="<?php echo $precio; ?>"/>
                 <label class="form-label" for="typeNumber"></label>
               </div>
             </div>
@@ -176,27 +195,12 @@
             <div class="col-sm-6 mb-3">
                 <p class="mb-0">Cantidad en Almacen</p>
                 <div class="form-group">
-                  <input type="number" id="typeNumber" class="form-control" name="cantidad" />
+                  <input type="number" id="typeNumber" class="form-control" name="cantidad" value="<?php echo $cantidad; ?>"/>
                   <label class="form-label" for="typeNumber"></label>
                 </div>
             </div>
             
           </div>
-          
-          
-          <hr class="my-4" />
-
-          <h5 class="card-title mb-3">Agrega Imagenes</h5>
-          
-          <div class="mb-3">
-            <label for="formFileLg" class="form-label">Caratula</label>
-            <input class="form-control form-control-lg" id="fileToUpload" type="file" name="fileToUpload"/>
-          </div>
-          
-          <!-- <div class="mb-3">
-            <label for="formFileMultiple" class="form-label">Imagenes extra</label>
-            <input class="form-control" type="file" name="imagenes" id="formFileMultiple" multiple />
-          </div> -->
           
           <hr class="my-4" />
           
@@ -275,79 +279,11 @@
                 $cantidad = (int) $quantity;
                 
                 //la tabla existe, inserto los datos
-                $sql = "INSERT INTO producto (nombre, descripcion, precio, c_almacen, id_categoria) SELECT '$nombre', '$descripcion', $precio, $cantidad, id_categoria FROM categoria WHERE n_categoria='$categoria';";
+                $sql = "UPDATE producto SET nombre='$nombre', descripcion='$descripcion', precio=$precio, c_almacen=$cantidad WHERE id_producto=$idprod;";
                 if (mysqli_query($con,$sql)) {
                 } else {
-                echo "Error inserting data: " . mysqli_error($con);
-                }
-                
-                // Subida de Imagen
-
-                $target_dir = "../img/";
-                $newFileName = date('dmYHis') . str_replace(" ", "", basename($_FILES["fileToUpload"]["name"]));
-                $target_file = $target_dir . $newFileName;
-                $uploadOk = 1;
-                $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-                
-                
-                // Check if image file is a actual image or fake image
-                if (isset($_POST["submit"])) {
-                  $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-                  if ($check !== false) {
-                    echo "File is an image - " . $check["mime"] . "." . "<br>";
-                    $uploadOk = 1;
-                  } else {
-                    echo "File is not an image." . "<br>";
-                    $uploadOk = 0;
-                  }
-                }
-
-                // Check file size e.g. limit to 1000kb
-                if ($_FILES["fileToUpload"]["size"] > 1000000) {
-                  echo "Sorry, your file is too large." . "<br>";
-                  $uploadOk = 0;
-                }
-                
-                // Allow certain file formats
-                if (
-                  $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-                  && $imageFileType != "gif"
-                ) {
-                  echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed." . "<br>";
-                  $uploadOk = 0;
-                }
-                
-                function insertIntoDatabase($fileName)
-                {
-
-                  // Create connection
-                  $conn = new mysqli("localhost", "root", "dapg100318","p_final");
-                  $name = test_input($_POST["name"]);
-                  $nombre = mysqli_real_escape_string($conn,$name);
-                  $stmt = $conn->prepare("INSERT INTO fotos (filename, caratula, id_producto) SELECT ?, 1, id_producto FROM producto WHERE producto.nombre='$nombre'");
-                  $stmt->bind_param("s", $imageName);
-                  $imageName = $fileName;
-                  $stmt->execute();
-                
-                  $stmt->close();
-                  $conn->close();
-                }
-
-                // Check if $uploadOk is set to 0 by an error
-                if ($uploadOk == 0) {
-                  echo "Sorry, your file was not uploaded." . "<br>";
-                  // if everything is ok, try to upload file
-                } else {
-                  if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                    insertIntoDatabase($newFileName);
-                  } else {
-                    echo "Sorry, there was an error uploading your file." . "<br>";
-                  }
-                }
-              
-
-                
-
+                echo "Error updating data: " . mysqli_error($con);
+                }    
             }
         }
     }

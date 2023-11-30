@@ -52,7 +52,8 @@
   <!-- Navbar -->
   <nav
        id="main-navbar"
-       class="navbar navbar-expand-lg navbar-light bg-white fixed-top"
+       class="navbar navbar-expand-lg navbar-light bg-primary fixed-top"
+       style = "min-height: 70px;"
        >
     <!-- Container wrapper -->
     <div class="container-fluid">
@@ -69,37 +70,44 @@
         <i class="fas fa-bars"></i>
       </button>
       <!-- Brand -->
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="../homepage.php">
         <img
              src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png"
              height="25"
              alt=""
              loading="lazy"
+             class="img-thumbnail"
              />
       </a>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="../homepage.php">Inicio</a>
-        </li>
-      </ul>
       <!-- Right links -->
       <ul class="navbar-nav ms-auto d-flex flex-row">
         <!-- Notification dropdown -->
           <?php
               session_start();
               if(isset($_SESSION['id'])) {
-                  echo "<li class=\"nav-item dropdown\"><a href=\"#\" class=\"hidden-arrow me-1 border rounded py-1 px-3 nav-link d-flex align-items-center\" id=\"userMenuDropdown\" role=\"button\" data-mdb-toggle=\"dropdown\" aria-expanded=\"false\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Mi Cuenta</p> </a><ul class=\"dropdown-menu dropdown-menu-end\" aria-labelledby=\"userMenuDropdown\"><li><a class=\"dropdown-item\" href=\"./php/u_profile.php\">Perfil</a></li>
+                  echo "<li class=\"nav-item dropdown\"><a href=\"#\" class=\"hidden-arrow me-1 border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" id=\"userMenuDropdown\" role=\"button\" data-mdb-toggle=\"dropdown\" aria-expanded=\"false\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Mi Cuenta</p> </a><ul class=\"dropdown-menu dropdown-menu-end\" aria-labelledby=\"userMenuDropdown\"><li><a class=\"dropdown-item\" href=\"./u_profile.php\">Perfil</a></li><li><form role=\"form\" method=\"post\"><button class=\"dropdown-item\" type=\"submit\" name=\"logout\">Cerrar sesión</button></form></li>
                   </ul></li>";
-                  echo "<li class=\"nav-item\"><a href=\"./php/Cart.html\" class=\"border rounded py-1 px-3 nav-link d-flex align-items-center\" target=\"_self\"> <i class=\"fas fa-shopping-cart m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">My cart</p> </a></li>";
+                  echo "<li class=\"nav-item\"><a href=\"./Cart.php\" class=\"border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" target=\"_self\"> <i class=\"fas fa-shopping-cart m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">My cart</p> </a></li>";
               }else {
                   //There is no active session
-                  echo "<li class=\"nav-item\"><a href=\"./php/login_signup.php\" class=\"me-1 border rounded py-1 px-3 nav-link d-flex align-items-center\" target=\"_self\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Sign in</p> </a></li>";
-                  echo "<li class=\"nav-item\"><a href=\"./php/login_signup.php\" class=\"border rounded py-1 px-3 nav-link d-flex align-items-center\" target=\"_self\"> <i class=\"fas fa-shopping-cart m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">My cart</p> </a></li>";    
+                  echo "<li class=\"nav-item\"><a href=\"./login_signup.php\" class=\"me-1 border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" target=\"_self\"> <i class=\"fas fa-user-alt m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">Sign in</p> </a></li>";
+                  echo "<li class=\"nav-item\"><a href=\"./login_signup.php\" class=\"border rounded py-1 px-3 nav-link d-flex align-items-center bg-white\" target=\"_self\"> <i class=\"fas fa-shopping-cart m-1 me-md-2\"></i><p class=\"d-none d-md-block mb-0\">My cart</p> </a></li>";    
               } 
           ?>
       </ul>
     </div>
   </nav>
+
+  
+
+  <?php
+    if (isset($_POST['logout'])) {
+      session_unset();
+      session_destroy();
+      header("Location: ../homepage.php");
+      // Your code that you want to execute
+    }
+  ?>
 
   <!-- Navbar -->
 </header>
@@ -162,8 +170,12 @@
         ?>
 
                 <div class="float-end">
-              	<button type="submit" class="btn btn-success shadow-0 border" name="pay">Confirma compra</button>
-            	</div>            
+              	  <button type="submit" class="btn btn-success shadow-0 border" name="pay">Confirma compra</button>
+            	  </div>
+                <div class="float-end">
+              	  <button type="submit" class="btn btn-success shadow-0 border" name="empty">Vacia el carro</button>
+            	  </div>          
+
 
         </form>
 
@@ -173,7 +185,7 @@
 
 <?php
 
-if (isset($_POST['pay']))  {
+  if (isset($_POST['pay']))  {
         $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
             // Coneccion a la base de datos
             if (mysqli_connect_errno()) {
@@ -186,10 +198,7 @@ if (isset($_POST['pay']))  {
                     $row = mysqli_fetch_array($result);
                     $value = $row['id_historial'];
                     $valor = (int) $value;
-                    $sql2 = "SELECT id_carrito FROM carrito WHERE id_usuario= $idsession ;";
-                    $result2 = mysqli_query($con,$sql2);
-                    $row2 = mysqli_fetch_array($result2);
-                    $value2 = $row2['id_carrito'];
+                    $value2 = $_SESSION['id_carro'];
                     $valor2 = (int) $value2;
                     $sql3 = "SELECT id_producto FROM carritoprod WHERE id_carrito= $valor2 ;";
                     $result3 = mysqli_query($con,$sql3);
@@ -200,6 +209,11 @@ if (isset($_POST['pay']))  {
                         if (mysqli_query($con,$sql4)) {
                         } else {
                         echo "Error inserting data: " . mysqli_error($con);
+                        }
+                        $sql7 = "UPDATE producto SET c_almacen = c_almacen - 1 WHERE id_producto = $valor3;";
+                        if (mysqli_query($con,$sql7)) {
+                        } else {
+                        echo "Error updating data: " . mysqli_error($con);
                         }
                     }
                     $sql5 = "DELETE FROM carritoprod WHERE id_carrito= $valor2 ;";
@@ -212,10 +226,34 @@ if (isset($_POST['pay']))  {
                     } else {
                     echo "Error deleting data: " . mysqli_error($con);
                     }
-                
+                    echo "<script type='text/javascript'>alert('Compra realizada con exito');</script>";
+                    $sql8 = "INSERT INTO carrito (id_usuario) VALUES ($idsession);";
+                    if (mysqli_query($con,$sql8)) {
+                      $sql9 = "SELECT id_carrito FROM carrito WHERE id_usuario= $idsession ;";
+                      $result9 = mysqli_query($con,$sql9);
+                      $row9 = mysqli_fetch_array($result9);
+                      $value9 = $row9['id_carrito'];
+                      $_SESSION['id_carro'] = $value9;
+                    } else {
+                    echo "Error inserting data: " . mysqli_error($con);
+                    }
                 
             }
-          } 
+  }else if (isset($_POST['empty'])){
+    $con = mysqli_connect("localhost", "root", "dapg100318","p_final");
+    // Coneccion a la base de datos
+    if (mysqli_connect_errno()) {
+        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+    } else {
+      $idcarro = $_SESSION['id_carro'];
+      $sql = "DELETE FROM carritoprod WHERE id_carrito= $idcarro ;";
+      if (mysqli_query($con,$sql)) {
+      } else {
+      echo "Error deleting data: " . mysqli_error($con);
+      }
+    }
+    
+  } 
 ?>
 
 <!--Main layout-->
